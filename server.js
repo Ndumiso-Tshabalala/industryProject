@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const User = require('./models/User');
+
 
 mongoose.connect('mongodb+srv://admin:admin123@cluster0.4l1jt.mongodb.net/<dbname>?retryWrites=true&w=majority');
 
@@ -52,16 +54,21 @@ app.use(bodyParser.urlencoded({extended: false}));
                 error: 'invalid credentials'
             })
         }
+        
         //check for incorrect password
-        if(bcrypt.compareSync(req.body.password, user.password)){
+        if(!bcrypt.compareSync(req.body.password, user.password)){
             return res.status(401).json({
                 title: 'login failed',
                 error: 'invalid credentials'
             })
         }
-        //if all credentials are correct
+        //if all credentials are correct, create token and send to front end
         //JSON WEB TOKENS
-        
+        let token = jwt.sign({userId: user._id}, 'secretkey') //create key to keep private
+        return res.status(200).json({
+            title: 'login success',
+            token: token
+        })
       })
 
     })
