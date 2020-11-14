@@ -1,6 +1,6 @@
 <template>
 <div>
-landing
+     <button @click="logout"> logout</button>
 </div>
   
 </template>
@@ -12,6 +12,12 @@ export default {
         //user not authorized
         if(localStorage.getItem('token') === null) {
          this.$router.push('/login');   //push back to log in page
+        }
+    },
+    methods:{
+        logout(){
+            localStorage.clear();
+            this.$router.push('/login');
         }
     }
 }
