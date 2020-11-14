@@ -4,6 +4,7 @@
       EMAIL<input type="text"  v-model="email"/><br/>
       PASSWORD<input type="password"  v-model="password"/><br/>
       <button @click="signup"> signup</button>
+      {{ error }}
 
   </div>
 </template>
@@ -17,7 +18,9 @@ export default {
         return{
             name:'',
             email:'',
-            password:''
+            password:'',
+
+            error: '',
         }
         },
         methods: {
@@ -33,8 +36,13 @@ export default {
                 axios.post('http://localhost:5000/signup', newUser)
                 .then(res =>{
                     console.log(res)
+                     this.error='';
+                     this.$router.push('/login'); //user has signed up successfully
+
                 }, err => {
                     console.log(err.response)
+                    this.error= err.response.data.error
+                    
                 })
                
             }

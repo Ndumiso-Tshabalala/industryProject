@@ -38,6 +38,35 @@ app.use(bodyParser.urlencoded({extended: false}));
  
     })
 
+    //directs to log in
+    app.post('/login', (req,res,next)=>{
+        //checks email correspondence
+       User.findOne({ email: req.body.email}, (err, user) => {
+        if(err) return res.status(500).json({
+            title: 'server error',
+            error: err
+        })
+        if(!user){
+            return res.status(401).json({
+                title: 'user not found',
+                error: 'invalid credentials'
+            })
+        }
+        //check for incorrect password
+        if(bcrypt.compareSync(req.body.password, user.password)){
+            return res.status(401).json({
+                title: 'login failed',
+                error: 'invalid credentials'
+            })
+        }
+        //if all credentials are correct
+        //JSON WEB TOKENS
+        
+      })
+
+    })
+    
+
 
 const port = process.env.PORT || 5000;
 
