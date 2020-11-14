@@ -31,6 +31,11 @@ export default {
                 }
                 // sending signUp data to backEnd
                 axios.post('http://localhost:5000/signup', newUser)
+                .then(res =>{
+                    console.log(res)
+                }, err => {
+                    console.log(err.response)
+                })
                
             }
         }
