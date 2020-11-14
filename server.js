@@ -74,7 +74,29 @@ app.use(bodyParser.urlencoded({extended: false}));
     })
     
 
+//collecting user info
+app.get('/user',(req, res, next) => {
+let token = req.headers.token; //token
+//verify token before collecting information
+jwt.verify(token, 'secretkey',(err,decoded) => {
+    if(err) return res.status(401).json({                //valid user
+        //send back
+        title: 'unauthorized'
+    })
+    //valid token
+    User.findOne({_id: decoded.userId}, (err,user)=>{       //passing to front end
+        if(err)return console.log(err)
+        return res.status(200).json({
+            title: 'user collected',
+            user: {
+                email: user.email,
+                name: user.name
+            }
 
+        })
+    })
+})
+})
 const port = process.env.PORT || 5000;
 
 app.listen(port, (err) => {
