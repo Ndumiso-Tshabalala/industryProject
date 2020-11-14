@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 const cors = require('cors');
 const User = require('./models/User');
 
+mongoose.connect('mongodb+srv://admin:admin123@cluster0.4l1jt.mongodb.net/<dbname>?retryWrites=true&w=majority');
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -21,8 +23,21 @@ app.use(bodyParser.urlencoded({extended: false}));
          
 
      })
-     console.log(newUser);
- })
+     //save new user
+     newUser.save(err=>{
+         if(err){
+             return res.status(400).json({      //called when user already exists with pre-existing email
+                title: 'error',
+                error: 'email in use'
+             })
+         }
+         return res.status(200).json({
+             title: 'signup success'
+         })
+     })
+ 
+    })
+
 
 const port = process.env.PORT || 5000;
 
