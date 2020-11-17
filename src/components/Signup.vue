@@ -96,7 +96,8 @@ export default {
 }
 
 body{
-  background: #3aaf9f;
+   /* background: #3aaf9f; */
+   background: url(background.jpg) no-repeat;
 
 }
 
@@ -118,7 +119,7 @@ body{
   text-align: center;
   font-size: 26px;
   font-weight: bold;
-  color: #3aaf9f;
+  color: #383636;
 }
 
 .wrapper .social_media{
