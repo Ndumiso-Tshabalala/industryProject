@@ -106,13 +106,14 @@ jwt.verify(token, 'secretkey',(err,decoded) => {
 
 
 //using multer
+//uploading file along with original extention
 const storage = multer.diskStorage({
     destination:(req,file,cb) =>{
         cb(null, 'uploads');
     },
     filename: (req, file, cb) => {
         const{ originalname } = file;
-        cb(null, originalname);
+        cb(null, `${uuid()}-${originalname}`);  //using uuid to create unique string, to avoid files being overwritten
 
     }
 })
@@ -124,13 +125,7 @@ const upload = multer({storage});
 
      });
 
-
-
-
-
-
-
-
+     
 
 
 const port = process.env.PORT || 5000;
