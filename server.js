@@ -1,6 +1,8 @@
 const express = require('express');  
 // const upload = require('express-fileupload');
 
+const multer = require('multer');
+const uuid = require('uuid').v4;
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -16,6 +18,7 @@ const app = express();    //initialise app as instance of express
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
 
 // routes
 //sending data to the back end to sign up the user
@@ -101,11 +104,25 @@ jwt.verify(token, 'secretkey',(err,decoded) => {
 })
 })
 
- app.post('/upload', (req,res,next)=> {
 
-      console.log(req.body)
+//using multer
+const storage = multer.diskStorage({
+    destination:(req,file,cb) =>{
+        cb(null, 'uploads');
+    },
+    filename: (req, file, cb) => {
+        const{ originalname } = file;
+        cb(null, originalname);
 
-     })
+    }
+})
+
+const upload = multer({storage});
+
+ app.post('/upload', upload.single('file') ,(req,res)=> {
+        return res.json({status: 'OK'});
+
+     });
 
 
 
