@@ -1,6 +1,6 @@
 <template>
 <div>
-     <input type="checkbox" id="check">
+
       <!--header area start-->
       <header>
         <label for="check">
@@ -10,40 +10,51 @@
           <h3>Welcome <span> {{ name }}</span></h3>
         </div>
         <div class="right_area">
-          <button class="button" @click="logout"> Log-Out </button>
+          <button class="button1" @click="logout"> Log-Out </button>
         </div>
       </header>
-      <!--header area end-->
-      <!--sidebar start-->
-      <!-- <div class="sidebar">
-        <center>
-         <img src="./1.png" class="profile_image" alt="">
-          <h4>{{ email }} </h4>
-        </center>
-        <a href="#"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
-         <a href="#"><i class="fas fa-cogs"></i><span>Components</span></a> -->
-        <!-- <a href="#"><i class="fas fa-table"></i><span>Tables</span></a> -->
-        <!-- <a href="#"><i class="fas fa-th"></i><span>Forms</span></a>
-        <a href="#"><i class="fas fa-info-circle"></i><span>About</span></a>
-        <a href="#"><i class="fas fa-sliders-h"></i><span>Settings</span></a> -->
-      <!-- </div> --> -->
-      <!--sidebar end-->
 
       <div class="content"></div>
           
-      <div class="uploading">
-        <form action="" method="POST">
-         <input type="file" multiple>
-        <p>Drag your files here or click in this area.</p>
-        <button type="submit">Upload</button>
+      <!-- <div class="field"> -->
+        <!-- <div><h1>File Uploading</h1>
+          <form method="POST" action="/" enctype="multipart/form-data">
+         <input type="file" name="file"/>
+        
+        <input type = "submit" value = "Upload"/>
         </form>
-      </div>
+        </div> -->
+
+        <!-- <form action = "http://localhost:5000/upload" enctype="multipart/form-data" method="POST"> -->
+
+        <!-- <input type = "file" ref = "uploadInput" @change="handleChange()" 
+        class="form-control upload-input"/>
+        -->
+
+        <form @submit.prevent="sendFile" enctype="multipart/form-data">
+        <div class = "field">
+          <label for="file" class="label">Upload file</label>
+          <input
+          type="file"
+          ref="file"
+          @change="selectFile"
+          />
+        </div>
+        <div class = "field">
+          <button class = "button is-info">Send</button>
+        </div>
+        </form>
+       
+
+        
+      <!-- </div> -->
 
 </div>
   
 </template>
 
 <script>
+// import API from "@/services";
 import axios from 'axios';
 export default {
     name: 'Landing', // to see if user is authenticated(whether token exists within the local storage)
@@ -51,6 +62,7 @@ export default {
         return{
             name: '',
             email:'',
+          
         }
     },
     
@@ -72,8 +84,29 @@ export default {
         logout(){
             localStorage.clear();
             this.$router.push('/login');
+        },
+    //     handleChange(){
+    //     console.log(this.$refs.uploadInput.files[0]);
+        
+    // }
+        selectFile(){
+          this.file = this.$refs.file.files[0];
+          console.log(this.$refs.file.files[0]);
+          
+        },
+        async sendFile(){
+          const formData = new FormData();
+          formData.append('file', this.file);
+        try{
+          await axios.post('http://localhost:5000/upload', formData);
+
+        }catch(err){
+          console.log(err);
+
         }
-    },
+        }
+    }
+    
 }
 </script>
 
@@ -106,7 +139,7 @@ header{
   color: #19B3D3;
 }
 
-.button{
+.button1{
   padding: 5px;
   background: #19B3D3;
   text-decoration: none;
@@ -121,7 +154,7 @@ header{
   transition-property: background;
 }
 
-.button:hover{
+.button1:hover{
   background: #0B87A6;
 }
 
@@ -219,7 +252,7 @@ label #sidebar_btn{
 }
 
 
-form{
+/* form{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -268,7 +301,7 @@ form button:active{
   border:0;
 }
 
-
+ */
 
 
 </style>

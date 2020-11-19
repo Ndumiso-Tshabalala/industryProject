@@ -1,4 +1,7 @@
-const express = require('express');
+const express = require('express');  
+// const upload = require('express-fileupload');
+
+
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
@@ -9,7 +12,7 @@ const User = require('./models/User');
 
 mongoose.connect('mongodb+srv://admin:admin123@cluster0.4l1jt.mongodb.net/<dbname>?retryWrites=true&w=majority');
 
-const app = express();
+const app = express();    //initialise app as instance of express
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -97,6 +100,22 @@ jwt.verify(token, 'secretkey',(err,decoded) => {
     })
 })
 })
+
+ app.post('/upload', (req,res,next)=> {
+
+      console.log(req.body)
+
+     })
+
+
+
+
+
+
+
+
+
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, (err) => {
