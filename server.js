@@ -1,5 +1,6 @@
 const express = require('express');  
-// const upload = require('express-fileupload');
+const serveStatic = require('serve-static')
+const path = require('path')
 
 
 const multer = require('multer');
@@ -21,6 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.use('/',serveStatic(path.join(__dirname,'/dist')))
 
 // routes
 //sending data to the back end to sign up the user
