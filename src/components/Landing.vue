@@ -12,42 +12,33 @@
         <div class="right_area">
           <button class="button1" @click="logout"> Log-Out </button>
         </div>
-      </header>
+      </header> 
+      <!-- header ends -->
 
-      <div class="content"></div>
-          
-      <!-- <div class="field"> -->
-        <!-- <div><h1>File Uploading</h1>
-          <form method="POST" action="/" enctype="multipart/form-data">
-         <input type="file" name="file"/>
-        
-        <input type = "submit" value = "Upload"/>
-        </form>
-        </div> -->
+    <!-- uploading starts here -->
+      <div class="wrapper">
+  <div class="title">
+    Upload file here
+  </div>
 
-        <!-- <form action = "http://localhost:5000/upload" enctype="multipart/form-data" method="POST"> -->
-
-        <!-- <input type = "file" ref = "uploadInput" @change="handleChange()" 
-        class="form-control upload-input"/>
-        -->
-
-        <form @submit.prevent="sendFile" enctype="multipart/form-data">
+  <div class="form">
+    <form @submit.prevent="sendFile" enctype="multipart/form-data">
         <div class = "field">
-          <label for="file" class="label">Upload file</label>
-          <input
-          type="file"
-          ref="file"
-          @change="selectFile"
-          />
+          <label for="file" class="label"></label>
+          <input type="file"  ref="file" @change="selectFile"/>
         </div>
-        <div class = "field">
+        <!-- <div class = "field"> -->
           <button class = "button is-info">Send</button>
-        </div>
+        <!-- </div> -->
         </form>
-       
+  </div>
+</div>	
 
+
+      <div class="content">
         
-      <!-- </div> -->
+      </div>
+      
 
 </div>
   
@@ -91,7 +82,7 @@ export default {
     // }
         selectFile(){
           this.file = this.$refs.file.files[0];
-          console.log(this.$refs.file.files[0]);
+          // console.log(this.$refs.file.files[0]);
           
         },
         async sendFile(){
@@ -158,81 +149,6 @@ header{
   background: #0B87A6;
 }
 
-/* .sidebar {
-  background: transparent;
-
-  margin-top: 70px;
-  padding-top: 30px;
-  position: fixed;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  transition: 0.5s;
-  transition-property: left;
-} */
-
-/* .sidebar .profile_image{
-  width: 100px;
-  height: 100px;
-  border-radius: 100px;
-  margin-bottom: 10px;
-}
-
-.sidebar h4{
-  color: #ccc;
-  margin-top: 0;
-  margin-bottom: 20px;
-} */
-
-/* .sidebar a{
-  color: #fff;
-  display: block;
-  width: 100%;
-  line-height: 60px;
-  text-decoration: none;
-  padding-left: 40px;
-  box-sizing: border-box;
-  transition: 0.5s;
-  transition-property: background;
-} */
-
-/* .sidebar a:hover{
-  background: #19B3D3;
-}
-
-.sidebar i{
-  padding-right: 10px;
-}
-
-label #sidebar_btn{
-  z-index: 1;
-  color: #fff;
-  position: fixed;
-  cursor: pointer;
-  left: 300px;
-  font-size: 20px;
-  margin: 5px 0;
-  transition: 0.5s;
-  transition-property: color;
-} */
-
-/* label #sidebar_btn:hover{
-  color: #19B3D3;
-}
-
-#check:checked ~ .sidebar{
-  left: -190px;
-}
-
-#check:checked ~ .sidebar a span{
-  display: none;
-}
-
-#check:checked ~ .sidebar a{
-  font-size: 20px;
-  margin-left: 170px;
-  width: 80px;
-} */
 
 .content{
   /* margin-left: 250px; */
@@ -250,58 +166,5 @@ label #sidebar_btn{
 #check{
   display: none;
 }
-
-
-/* form{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -250px;
-  width: 508px;
-  height: 200px;
-  border: 4px dashed #fff;
-}
-form p{
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  line-height: 170px;
-  color: #ffffff;
-  font-family: Arial;
-}
-form input{
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  outline: none;
-  opacity: 0;
-}
-form button{
-  margin: 0;
-  color: #fff;
-  background: #16a085;
-  border: none;
-  width: 508px;
-  height: 35px;
-  margin-top: -20px;
-  margin-left: -4px;
-  border-radius: 4px;
-  border-bottom: 4px solid #117A60;
-  transition: all .2s ease;
-  outline: none;
-}
-form button:hover{
-  background: #149174;
-	color: #0C5645;
-}
-form button:active{
-  border:0;
-}
-
- */
-
 
 </style>

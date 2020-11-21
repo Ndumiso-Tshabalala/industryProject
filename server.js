@@ -1,6 +1,7 @@
 const express = require('express');  
 // const upload = require('express-fileupload');
 
+
 const multer = require('multer');
 const uuid = require('uuid').v4;
 
@@ -10,6 +11,7 @@ const bcrypt = require('bcrypt')
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
+// const uploadModel = require('./models/upload');
 
 
 mongoose.connect('mongodb+srv://admin:admin123@cluster0.4l1jt.mongodb.net/<dbname>?retryWrites=true&w=majority');
@@ -122,7 +124,7 @@ const upload = multer({storage});
 
  app.post('/upload', upload.single('file') ,(req,res)=> {
         return res.json({status: 'OK'});
-
+        
      });
 
      
