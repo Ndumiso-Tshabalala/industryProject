@@ -1,7 +1,8 @@
 const express = require('express');  
-const serveStatic = require('serve-static')
+// const serveStatic = require('serve-static')
 const path = require('path')
-
+const request = require("request");
+const fs = require('fs');
 
 const multer = require('multer');
 const uuid = require('uuid').v4;
@@ -12,7 +13,7 @@ const bcrypt = require('bcrypt')
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
-// const uploadModel = require('./models/upload');
+const Image = require('./models/Image');
 
 
 mongoose.connect('mongodb+srv://admin:admin123@cluster0.4l1jt.mongodb.net/<dbname>?retryWrites=true&w=majority');
@@ -22,7 +23,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use('/',serveStatic(path.join(__dirname,'/dist')))
+// app.use('/',serveStatic(path.join(__dirname,'/dist')))
+// app.get(/.*/, function(req, res){
+//     res.sendFile(__dirname + "/dist/index.html");
+// });
 
 // routes
 //sending data to the back end to sign up the user
@@ -83,7 +87,6 @@ app.use('/',serveStatic(path.join(__dirname,'/dist')))
 
     })
     
-
 //collecting user info
 app.get('/user',(req, res, next) => {
 let token = req.headers.token; //token
@@ -107,18 +110,26 @@ jwt.verify(token, 'secretkey',(err,decoded) => {
     })
 })
 })
-
-
 //using multer
-//uploading file along with original extention
+//working directly with mongoose
+const connection = mongoose.connection;
+connection.on('error', console.log);
+
 const storage = multer.diskStorage({
     destination:(req,file,cb) =>{
         cb(null, 'uploads');
-    },
+    },                                                                                  //uploading file along with original extention //storing to server and paths to database
     filename: (req, file, cb) => {
-        const{ originalname } = file;
-        cb(null, `${uuid()}-${originalname}`);  //using uuid to create unique string, to avoid files being overwritten
-
+        // const{ originalname } = file;
+        const ext = path.extname(file.originalname);
+        const id = uuid();
+        const filePath = `images/${id}${ext}`;
+        // cb(null, `${uuid()}-${originalname}`);  //using uuid to create unique string, to avoid files being overwritten
+        Image.create({ filePath })
+            .then(()=> {
+                cb(null,filePath);
+            });   
+      
     }
 })
 
@@ -129,7 +140,6 @@ const upload = multer({storage});
         
      });
 
-     
 
 
 const port = process.env.PORT || 5000;
