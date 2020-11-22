@@ -22,11 +22,12 @@
   </div>
 
   <div class="form">
-    <form @submit.prevent="sendFile" enctype="multipart/form-data">
+    <form @submit="sendFile" enctype="multipart/form-data">
         <div class = "field">
           <label for="file" class="label"></label>
           <input type="file"  ref="file" @change="selectFile"/>
         </div>
+      
         <!-- <div class = "field"> -->
           <button class = "button is-info">Send</button>
         <!-- </div> -->
@@ -53,6 +54,7 @@ export default {
         return{
             name: '',
             email:'',
+            
         }
     },
     
@@ -75,13 +77,11 @@ export default {
             localStorage.clear();
             this.$router.push('/login');
         },
-    //     handleChange(){
-    //     console.log(this.$refs.uploadInput.files[0]);
-        
-    // }
         selectFile(){
           this.file = this.$refs.file.files[0];
           // console.log(this.$refs.file.files[0]);
+
+          
           
         },
         async sendFile(){

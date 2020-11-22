@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path')
 const request = require("request");
 const fs = require('fs');
+const xlsx = require("xlsx");
 
 const multer = require('multer');
 const uuid = require('uuid').v4;
@@ -13,7 +14,7 @@ const bcrypt = require('bcrypt')
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
-const Image = require('./models/Image');
+const Files = require('./models/Files');
 
 
 mongoose.connect('mongodb+srv://admin:admin123@cluster0.4l1jt.mongodb.net/<dbname>?retryWrites=true&w=majority');
@@ -123,12 +124,13 @@ const storage = multer.diskStorage({
         // const{ originalname } = file;
         const ext = path.extname(file.originalname);
         const id = uuid();
-        const filePath = `images/${id}${ext}`;
+        const filePath = `files/${id}${ext}`;
         // cb(null, `${uuid()}-${originalname}`);  //using uuid to create unique string, to avoid files being overwritten
-        Image.create({ filePath })
+        Files.create({ filePath })
             .then(()=> {
                 cb(null,filePath);
             });   
+            
       
     }
 })
@@ -137,8 +139,13 @@ const upload = multer({storage});
 
  app.post('/upload', upload.single('file') ,(req,res)=> {
         return res.json({status: 'OK'});
+       
         
      });
+
+
+//read excel file
+
 
 
 
