@@ -130,8 +130,7 @@ const storage = multer.diskStorage({
             .then(()=> {
                 cb(null,filePath);
             });   
-            
-      
+
     }
 })
 
@@ -139,14 +138,21 @@ const upload = multer({storage});
 
  app.post('/upload', upload.single('file') ,(req,res)=> {
         return res.json({status: 'OK'});
-       
-        
+  
      });
+
+//getting files from Mongo
+     
+app.get('/files', ( req,res)=>{
+    Files.find()
+        .then((files) => {
+            return res.json({ status: 'OK', files});
+        });
+
+});
 
 
 //read excel file
-
-
 
 
 const port = process.env.PORT || 5000;

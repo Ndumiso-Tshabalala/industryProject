@@ -30,6 +30,7 @@
       
         <!-- <div class = "field"> -->
           <button class = "button is-info">Send</button>
+          <!-- {{file}} -->
         <!-- </div> -->
         </form>
   </div>
@@ -46,14 +47,16 @@
 </template>
 
 <script>
-// import API from "@/services";
+
 import axios from 'axios';
+
 export default {
     name: 'Landing', // to see if user is authenticated(whether token exists within the local storage)
     data(){
         return{
             name: '',
             email:'',
+            // file: {}
             
         }
     },
@@ -71,18 +74,25 @@ export default {
             this.name = res.data.user.name;
             this.email = res.data.user.email;
         })
+        // axios.get('http://localhost:5000/')
+        // .then(res=>{
+        //   console.log(res.data.files)
+        //   this.file = res.data.files;
+        // })
+        // .catch((error)=>{
+        //   console.log(error);
+        // })
     },
+    
     methods:{
         logout(){
             localStorage.clear();
             this.$router.push('/login');
         },
         selectFile(){
+          
           this.file = this.$refs.file.files[0];
           // console.log(this.$refs.file.files[0]);
-
-          
-          
         },
         async sendFile(){
           const formData = new FormData();
